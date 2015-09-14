@@ -20,6 +20,9 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Class to represent users in the Community Blogger Web service. A User object
  * stores the following data:
@@ -43,6 +46,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author Ian Warren
  *
  */
+@XmlRootElement
 public class User {
 	private String _username;
 	private String _lastname;
@@ -50,7 +54,12 @@ public class User {
 	
 	private Set<BlogEntry> _blogEntriesPosted;
 	private Set<Comment> _commentsPosted;
-	
+
+
+	public User() {
+		this(null, null, null);
+	}
+
 	/**
 	 * Creates a User.
 	 * 
@@ -75,6 +84,7 @@ public class User {
 	 * Returns this User's username.
 	 * 
 	 */
+	@XmlElement
 	public String getUsername() {
 		return _username;
 	}
@@ -83,6 +93,7 @@ public class User {
 	 * Returns this User's last name.
 	 * 
 	 */
+	@XmlElement
 	public String getLastname() {
 		return _lastname;
 	}
@@ -91,6 +102,7 @@ public class User {
 	 * Returns this User's first name.
 	 * 
 	 */
+	@XmlElement
 	public String getFirstname() {
 		return _firstname;
 	}
@@ -98,6 +110,7 @@ public class User {
 	/**
 	 * Returns the set of blog entries posted by this User.
 	 */
+	@XmlElement
 	public Set<BlogEntry> getBlogEntries() {
 		return Collections.unmodifiableSet(_blogEntriesPosted);
 	}
@@ -105,6 +118,7 @@ public class User {
 	/**
 	 * Returns the set of comments posted by this User.
 	 */
+	@XmlElement
 	public Set<Comment> getComments() {
 		return Collections.unmodifiableSet(_commentsPosted);
 	}

@@ -48,13 +48,13 @@ public class BloggerResourceImpl implements BloggerResource {
 	@Override
 	public Response retrieveUser(String username) {
 
-		User returneduser = new User("extantUser", "surname", "firstname");
+		User returnedUser = new User("extantUser", "surname", "firstname");
 
 		//if user exists, return user
-		if (username.equals(returneduser.getUsername()))
+		if (username.equals(returnedUser.getUsername()))
 
 			//need to store this into an xml response body
-			return Response.status(200).entity(returneduser).build();
+			return Response.status(200).entity(returnedUser).build();
 
 		//else return 404
 		else {

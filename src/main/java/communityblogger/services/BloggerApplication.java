@@ -16,8 +16,6 @@ public class BloggerApplication extends Application {
 
 	public BloggerApplication() {
 		_singletons.add(new BloggerResourceImpl());
-		_singletons.add(new BloggerResolver());
-		_classes.add(BloggerResourceImpl.class);
 		_classes.add(BloggerResolver.class);
 
 
