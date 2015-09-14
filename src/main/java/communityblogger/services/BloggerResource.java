@@ -9,7 +9,7 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("whatever")
+@Path("resources")
 public interface BloggerResource {
 
 	// TO DO:

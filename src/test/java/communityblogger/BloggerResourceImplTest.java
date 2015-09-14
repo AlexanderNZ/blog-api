@@ -3,6 +3,9 @@ package communityblogger;
 import communityblogger.domain.User;
 import communityblogger.services.BloggerResource;
 import communityblogger.services.BloggerResourceImpl;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.Response;
 
@@ -86,18 +89,23 @@ public class BloggerResourceImplTest {
 
     }
 
-//    /**
-//     * Retrieves a user that exists, tests that 200 and the user is returned
-//     * @throws Exception
-//     */
-//    @org.junit.Test
-//    public void retrieveUserIntegration() throws Exception {
-//
-////        Response response = simple.retrieveUser("extantUser");
-////        User user = (User) response.getEntity();
-////
-////        assertEquals(200, response.getStatus());
-////        assertEquals("extantUser", user.getUsername());
-//
-//    }
+    /**
+     * Retrieves a user that exists, tests that 200 and the user is returned
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void retrieveUserIntegration() throws Exception {
+
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
+
+        BloggerResource simple = target.proxy(BloggerResource.class);
+
+        Response response = simple.retrieveUser("extantUser");
+        User user = response.readEntity(User.class);
+
+        assertEquals(200, response.getStatus());
+        assertEquals("extantUser", user.getUsername());
+
+    }
 }
