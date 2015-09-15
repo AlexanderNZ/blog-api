@@ -122,6 +122,27 @@ public class User {
 	public Set<Comment> getComments() {
 		return Collections.unmodifiableSet(_commentsPosted);
 	}
+
+	public void setUsername(String _username) {
+		this._username = _username;
+	}
+
+	public void setLastname(String _lastname) {
+		this._lastname = _lastname;
+	}
+
+	public void setFirstname(String _firstname) {
+		this._firstname = _firstname;
+	}
+
+	public void setBlogEntriesPosted(Set<BlogEntry> _blogEntriesPosted) {
+		this._blogEntriesPosted = _blogEntriesPosted;
+	}
+
+	public void setCommentsPosted(Set<Comment> _commentsPosted) {
+		this._commentsPosted = _commentsPosted;
+	}
+
 	/**
 	 * Adds a BlogEntry to this User (the User is the author).
 	 * 

@@ -50,6 +50,7 @@ public class BloggerResourceImpl implements BloggerResource {
 
 		User returnedUser = new User("extantUser", "surname", "firstname");
 
+		System.out.println("user: " + returnedUser.getUsername() + " created.");
 		//if user exists, return user
 		if (username.equals(returnedUser.getUsername()))
 

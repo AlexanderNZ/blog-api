@@ -7,8 +7,7 @@ import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+
 
 @Provider
 @Produces("application/xml")
@@ -26,7 +25,6 @@ public class BloggerResolver implements ContextResolver<JAXBContext>{
 	
 	public BloggerResolver() {
 		try {
-				System.out.println("I got instantiated");
 
 			_context = JAXBContext.newInstance(_classes);
 			
@@ -39,7 +37,6 @@ public class BloggerResolver implements ContextResolver<JAXBContext>{
 	@Override
 	public JAXBContext getContext(Class<?> type) {
 
-		System.out.println("getContext happened");
 
 		for(int i = 0; i < _classes.length; i++) {
 			if(type.equals(_classes[i])) {

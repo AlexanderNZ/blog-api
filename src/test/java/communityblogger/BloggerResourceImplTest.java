@@ -1,6 +1,7 @@
 package communityblogger;
 
 import communityblogger.domain.User;
+import communityblogger.services.BloggerResolver;
 import communityblogger.services.BloggerResource;
 import communityblogger.services.BloggerResourceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -8,6 +9,9 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+
+import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -98,7 +102,6 @@ public class BloggerResourceImplTest {
 
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
-
         BloggerResource simple = target.proxy(BloggerResource.class);
 
         Response response = simple.retrieveUser("extantUser");
