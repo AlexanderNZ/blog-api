@@ -36,13 +36,43 @@ public interface BloggerResource {
 	@Produces("application/xml")
 	void initialiseContent();
 
-	@GET
-	@Path("hello")
-	@Produces("text/plain")
-	String hello();
+	@Path("/createUser")
+	@POST
+	@Produces("application/xml")
+	Response createUser(String createdUser, String created_, String user);
 
 	@Path("/retrieveUser")
 	@GET
 	@Produces("application/xml")
 	Response retrieveUser(@QueryParam("username") String username);
+
+	@Path("/createBlogEntry")
+	@POST
+	@Produces("application/xml")
+	void createBlogEntry();
+
+	@Path("/retrieveBlogEntry")
+	@GET
+	@Produces("application/xml")
+	void retrieveBlogEntry();
+
+	@Path("/createComment")
+	@POST
+	@Produces("application/xml")
+	void createComment();
+
+	@Path("/retrieveComments")
+	@GET
+	@Produces("application/xml")
+	void retrieveComments();
+
+	@Path("/retrieveBlogEntries")
+	@POST
+	@Produces("application/xml")
+	void retrieveBlogEntries();
+
+	@Path("/followBlogEntry")
+	@PUT
+	@Produces("application/xml")
+	void followBlogEntry();
 }

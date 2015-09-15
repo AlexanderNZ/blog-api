@@ -1,7 +1,6 @@
 package communityblogger;
 
 import communityblogger.domain.User;
-import communityblogger.services.BloggerResolver;
 import communityblogger.services.BloggerResource;
 import communityblogger.services.BloggerResourceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -9,9 +8,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBContext;
 
-import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

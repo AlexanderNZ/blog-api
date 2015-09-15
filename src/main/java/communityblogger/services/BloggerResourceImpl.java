@@ -41,8 +41,8 @@ public class BloggerResourceImpl implements BloggerResource {
 	}
 
 	@Override
-	public String hello() {
-		return "Hello";
+	public Response createUser(String createdUser, String created_, String user) {
+		return null;
 	}
 
 	@Override
@@ -62,6 +62,36 @@ public class BloggerResourceImpl implements BloggerResource {
 			return Response.status(404).build();
 		}
 
+
+	}
+
+	@Override
+	public void createBlogEntry() {
+
+	}
+
+	@Override
+	public void retrieveBlogEntry() {
+
+	}
+
+	@Override
+	public void createComment() {
+
+	}
+
+	@Override
+	public void retrieveComments() {
+
+	}
+
+	@Override
+	public void retrieveBlogEntries() {
+
+	}
+
+	@Override
+	public void followBlogEntry() {
 
 	}
 }
