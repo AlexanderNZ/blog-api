@@ -1,6 +1,7 @@
 package communityblogger;
 
 import communityblogger.domain.User;
+import communityblogger.services.BloggerResolver;
 import communityblogger.services.BloggerResource;
 import communityblogger.services.BloggerResourceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -19,18 +20,19 @@ import static org.junit.Assert.assertNull;
 
 public class BloggerResourceImplTest {
 
-//    /**
-//     * Test that successfully creates a user
-//     * @throws Exception
-//     */
-//    @org.junit.Test
-//    public void createUserSuccess() throws Exception {
-//
-//        BloggerResource bloggerResource = new BloggerResourceImpl();
-//        Response createdUser = bloggerResource.createUser("createdUser", "created_", "user");
-//        assertEquals(createdUser, bloggerResource.retrieveUser("createdUser"));
-//        assertEquals(201, createdUser.getStatus());
-//    }
+    /**
+     * Test that successfully creates a user
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createUserSuccess() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+        Response createdUser = bloggerResource.createUser("Batman", "created-last", "created-first");
+
+        //assertEquals(createdUser, bloggerResource.retrieveUser("createdUser"));
+        assertEquals(201, createdUser.getStatus());
+    }
 
 //    /**
 //     * Test that fails to create a user
@@ -98,6 +100,7 @@ public class BloggerResourceImplTest {
     public void retrieveUserIntegration() throws Exception {
 
         ResteasyClient client = new ResteasyClientBuilder().build();
+        client.register(BloggerResolver.class);
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
         BloggerResource simple = target.proxy(BloggerResource.class);
 

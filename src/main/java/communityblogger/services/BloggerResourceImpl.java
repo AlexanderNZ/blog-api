@@ -41,8 +41,13 @@ public class BloggerResourceImpl implements BloggerResource {
 	}
 
 	@Override
-	public Response createUser(String createdUser, String created_, String user) {
-		return null;
+	public Response createUser(String username, String lastname, String firstname) {
+
+		User createdUser = new User(username, lastname, firstname);
+		System.out.println("User Operation: Created user " + createdUser.getUsername());
+
+		return Response.status(201).entity(createdUser).build();
+
 	}
 
 	@Override

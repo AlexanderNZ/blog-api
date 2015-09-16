@@ -36,15 +36,17 @@ public interface BloggerResource {
 	@Produces("application/xml")
 	void initialiseContent();
 
-	@Path("/createUser")
+	@Path("/createUser/{username}/{lastname}/{firstname}")
 	@POST
 	@Produces("application/xml")
-	Response createUser(String createdUser, String created_, String user);
+	Response createUser(@PathParam("username") String username,
+						@PathParam("lastname") String lastname,
+						@PathParam("firstname") String firstname);
 
-	@Path("/retrieveUser")
+	@Path("/retrieveUser/{username}")
 	@GET
 	@Produces("application/xml")
-	Response retrieveUser(@QueryParam("username") String username);
+	Response retrieveUser(@PathParam("username") String username);
 
 	@Path("/createBlogEntry")
 	@POST
