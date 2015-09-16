@@ -1,6 +1,7 @@
 package communityblogger.services;
 
 
+import com.sun.xml.bind.v2.TODO;
 import communityblogger.domain.BlogEntry;
 import communityblogger.domain.User;
 
@@ -54,6 +55,7 @@ public class BloggerResourceImpl implements BloggerResource {
             User createdUser = new User(username, lastname, firstname);
             userHashMap.put(username, createdUser);
 
+            //TODO - Don't forget to add a link header (.link()) to this return
             return Response.status(201).entity(createdUser).build();
 
         } else
