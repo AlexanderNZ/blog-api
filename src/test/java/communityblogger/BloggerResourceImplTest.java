@@ -19,6 +19,13 @@ import static org.junit.Assert.assertNull;
 
 public class BloggerResourceImplTest {
 
+
+    Response createdUser;
+    Response testUser;
+    Response response;
+    Response retreieveUserIntegration;
+
+
     /**
      * Test that successfully creates a user
      *
@@ -28,34 +35,52 @@ public class BloggerResourceImplTest {
     public void createUserSuccess() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        Response createdUser = bloggerResource.createUser("Batman", "created-last", "created-first");
+        bloggerResource.initialiseContent();
+        createdUser = bloggerResource.createUser("Increrderble Herlk", "created-last", "created-first");
 
         //assertEquals(createdUser, bloggerResource.retrieveUser("createdUser"));
         assertEquals(201, createdUser.getStatus());
     }
 
-//    /**
-//     * Test that fails to create a user
-//     * @throws Exception
-//     */
-//    @org.junit.Test
-//    public void createUserFailure() throws Exception {
-//
-//        BloggerResource bloggerResource = new BloggerResourceImpl();
-//
-//    }
+    /**
+     * Test that fails to create a user
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createUserFailure() throws Exception {
 
-//    /**
-//     * Test that fails to creates a user
-//     * @throws Exception
-//     */
-//    @org.junit.Test
-//    public void createUserFail() throws Exception {
-//
-//        BloggerResource bloggerResource = new BloggerResourceImpl();
-//
-//
-//    }
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+        bloggerResource.initialiseContent();
+
+        createdUser = bloggerResource.createUser("Bertmern", "Brerce", "Werne");
+
+        assertEquals(409, createdUser.getStatus());
+
+    }
+
+    /**
+     * Test attempts to create a new user that does not exist in the hashmap already, then creates one that already
+     * exists in the hash map
+     * Tests this against a deployed webserver
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createUserIntegration() throws Exception {
+
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        client.register(BloggerResolver.class);
+        ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
+        BloggerResource bloggerResource = target.proxy(BloggerResource.class);
+        bloggerResource.initialiseContent();
+
+        Response createUserIntegrationSuccess = bloggerResource.createUser("RNJesus", "created-last", "created-first");
+        createUserIntegrationSuccess.close();
+        Response createUserIntegrationFailure = bloggerResource.createUser("Bertmern", "Brerce", "Werne");
+        createUserIntegrationFailure.close();
+
+        assertEquals(201, createUserIntegrationSuccess.getStatus());
+        assertEquals(409, createUserIntegrationFailure.getStatus());
+    }
 
     /**
      * Retrieves a user that does not exist in the project, tests that a 404 is returned.
@@ -66,8 +91,9 @@ public class BloggerResourceImplTest {
     public void retrieveNonExistentUser() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
+        bloggerResource.initialiseContent();
 
-        Response testUser = bloggerResource.retrieveUser("joe");
+        testUser = bloggerResource.retrieveUser("Chigger");
 
         assertNull(testUser.getEntity());
 
@@ -85,18 +111,19 @@ public class BloggerResourceImplTest {
     public void retrieveUser() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
+        bloggerResource.initialiseContent();
 
-        Response response = bloggerResource.retrieveUser("extantUser");
+        response = bloggerResource.retrieveUser("Bertmern");
         User user = (User) response.getEntity();
 
         assertEquals(200, response.getStatus());
-        assertEquals("extantUser", user.getUsername());
+        assertEquals("Bertmern", user.getUsername());
 
     }
 
     /**
      * Retrieves a user that exists, tests that 200 and the user is returned
-     *
+     * Tests this against a deployed webserver
      * @throws Exception
      */
     @org.junit.Test
@@ -105,13 +132,15 @@ public class BloggerResourceImplTest {
         ResteasyClient client = new ResteasyClientBuilder().build();
         client.register(BloggerResolver.class);
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
-        BloggerResource simple = target.proxy(BloggerResource.class);
+        BloggerResource bloggerResource = target.proxy(BloggerResource.class);
+        bloggerResource.initialiseContent();
 
-        Response response = simple.retrieveUser("extantUser");
-        User user = response.readEntity(User.class);
+        retreieveUserIntegration = bloggerResource.retrieveUser("Bertmern");
 
-        assertEquals(200, response.getStatus());
-        assertEquals("extantUser", user.getUsername());
+        assertEquals(200, retreieveUserIntegration.getStatus());
+
+        User user = retreieveUserIntegration.readEntity(User.class);
+        assertEquals("Bertmern", user.getUsername());
 
     }
 }
