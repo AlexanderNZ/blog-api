@@ -10,7 +10,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.Response;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -22,6 +21,7 @@ public class BloggerResourceImplTest {
 
     /**
      * Test that successfully creates a user
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -59,6 +59,7 @@ public class BloggerResourceImplTest {
 
     /**
      * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -77,6 +78,7 @@ public class BloggerResourceImplTest {
 
     /**
      * Retrieves a user that exists, tests that 200 and the user is returned
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -94,6 +96,7 @@ public class BloggerResourceImplTest {
 
     /**
      * Retrieves a user that exists, tests that 200 and the user is returned
+     *
      * @throws Exception
      */
     @org.junit.Test
