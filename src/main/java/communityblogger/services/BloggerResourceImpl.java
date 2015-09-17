@@ -87,6 +87,8 @@ public class BloggerResourceImpl implements BloggerResource {
         blogEntry.setId(_idCounter.getAndIncrement());
         blogEntryMap.put(blogEntry.getId(), blogEntry);
 
+        //TODO Add to object: Timestamp, username cookie value - this request needs a cookie header - request only successful when made by a user stored in the hash map
+
         return Response.status(201).link("services/resources/blog"
                 + blogEntry.getId(), "resource").build();
 
