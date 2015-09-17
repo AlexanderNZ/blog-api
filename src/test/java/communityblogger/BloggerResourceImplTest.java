@@ -171,9 +171,9 @@ public class BloggerResourceImplTest {
 
         BlogEntry createdBlogEntry = new BlogEntry("First item in blog hashmap");
 
-        Response retrievedPost = bloggerResource.createBlogEntry(createdBlogEntry);
+        Response response = bloggerResource.createBlogEntry(createdBlogEntry);
 
-        assertEquals("201", retrievedPost.getStatus());
+        assertEquals(201, response.getStatus());
 
 //        //Test that the generated URI is correct
 //        String uri = response.getLink("resource").getUri().toString();

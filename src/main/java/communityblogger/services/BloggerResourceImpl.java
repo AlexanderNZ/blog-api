@@ -42,6 +42,7 @@ public class BloggerResourceImpl implements BloggerResource {
         // (Re)-initialise data structures so that the Web service's state is
         // the same same as when the Web service was initially created.
 
+        _idCounter = new AtomicLong(0);
         userHashMap.put("Bertmern", new User("Bertmern", "Brerce", "Werne"));
         userHashMap.put("Spodermern", new User("Spodermern", "Terby", "Mergwer"));
         blogEntryMap.put(0l, new BlogEntry("Here is item 0 in blogEntryMap"));
@@ -81,15 +82,13 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response createBlogEntry(BlogEntry blogContent) {
+    public Response createBlogEntry(BlogEntry blogEntry) {
 
-        //create the user
-        BlogEntry createdBlogEntry = new BlogEntry("XML Pliz");
-        createdBlogEntry.setId(_idCounter.getAndIncrement());
-        blogEntryMap.put(createdBlogEntry.getId(), createdBlogEntry);
+        blogEntry.setId(_idCounter.getAndIncrement());
+        blogEntryMap.put(blogEntry.getId(), blogEntry);
 
         return Response.status(201).link("services/resources/blog"
-                + blogContent.getId(), "resource").build();
+                + blogEntry.getId(), "resource").build();
 
     }
 
