@@ -4,6 +4,7 @@ import communityblogger.domain.BlogEntry;
 import communityblogger.domain.User;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 
 @Path("resources")
@@ -43,10 +44,10 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveUser(@PathParam("username") String username);
 
-    @Path("/blog")
+    @Path("/blog/")
     @POST
     @Consumes("application/xml")
-    Response createBlogEntry(BlogEntry blogEntry);
+    Response createBlogEntry(BlogEntry blogEntry, @CookieParam("username") String username);
 
     @Path("/blog/{blogId}")
     @GET

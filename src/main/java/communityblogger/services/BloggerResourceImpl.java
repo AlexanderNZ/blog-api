@@ -3,10 +3,13 @@ package communityblogger.services;
 
 import communityblogger.domain.BlogEntry;
 import communityblogger.domain.User;
+import org.joda.time.DateTime;
 
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -45,7 +48,14 @@ public class BloggerResourceImpl implements BloggerResource {
         _idCounter = new AtomicLong(0);
         userHashMap.put("Bertmern", new User("Bertmern", "Brerce", "Werne"));
         userHashMap.put("Spodermern", new User("Spodermern", "Terby", "Mergwer"));
-        blogEntryMap.put(0l, new BlogEntry("Here is item 0 in blogEntryMap"));
+
+        //set up a test blog entry
+        BlogEntry testBlogEntry = new BlogEntry("Here is item 0 in blogEntryMap");
+        testBlogEntry.setId(_idCounter.getAndIncrement());
+        testBlogEntry.setTimePosted(DateTime.now());
+        User testBlogCreator = userHashMap.get("Spodermern");
+        testBlogCreator.addBlogEntry(testBlogEntry);
+        blogEntryMap.put(0l, testBlogEntry);
     }
 
     @Override
@@ -82,15 +92,26 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response createBlogEntry(BlogEntry blogEntry) {
+    public Response createBlogEntry(BlogEntry blogEntry, String username) {
 
-        blogEntry.setId(_idCounter.getAndIncrement());
-        blogEntryMap.put(blogEntry.getId(), blogEntry);
 
-        //TODO Add to object: Timestamp, username cookie value - this request needs a cookie header - request only successful when made by a user stored in the hash map
+        if (userHashMap.containsKey(username)){
+            User blogAuthor = userHashMap.get(username);
+            //then user exists and request should succeed
+            blogEntry.setId(_idCounter.getAndIncrement());
+            blogEntry.setTimePosted(DateTime.now());
+            blogAuthor.addBlogEntry(blogEntry);
+            blogEntryMap.put(blogEntry.getId(), blogEntry);
 
-        return Response.status(201).link("services/resources/blog"
-                + blogEntry.getId(), "resource").build();
+            //TODO Add to object: Timestamp, username cookie value - this request needs a cookie header - request only successful when made by a user stored in the hash map
+
+            return Response.status(201).link("services/resources/blog"
+                    + blogEntry.getId(), "resource").build();
+
+        } else {
+            //user does not exist and request should fail
+            return Response.status(412).build();
+        }
 
     }
 

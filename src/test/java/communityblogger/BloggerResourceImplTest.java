@@ -160,7 +160,7 @@ public class BloggerResourceImplTest {
     }
 
     /**
-     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+     * Creates a blog entry.
      *
      * @throws Exception
      */
@@ -171,7 +171,7 @@ public class BloggerResourceImplTest {
 
         BlogEntry createdBlogEntry = new BlogEntry("First item in blog hashmap");
 
-        Response response = bloggerResource.createBlogEntry(createdBlogEntry);
+        Response response = bloggerResource.createBlogEntry(createdBlogEntry, "Bertmern");
 
         assertEquals(201, response.getStatus());
 
@@ -192,7 +192,7 @@ public class BloggerResourceImplTest {
     }
 
     /**
-     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+     * Retrieves a blog entry
      *
      * @throws Exception
      */
