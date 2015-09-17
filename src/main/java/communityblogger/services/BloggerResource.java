@@ -1,5 +1,8 @@
 package communityblogger.services;
 
+import communityblogger.domain.BlogEntry;
+import communityblogger.domain.User;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -30,22 +33,20 @@ public interface BloggerResource {
     @Produces("application/xml")
     void initialiseContent();
 
-    @Path("/createUser/{username}/{lastname}/{firstname}")
+    @Path("/user")
     @POST
-    @Produces("application/xml")
-    Response createUser(@PathParam("username") String username,
-                        @PathParam("lastname") String lastname,
-                        @PathParam("firstname") String firstname);
+    @Consumes("application/xml")
+    Response createUser(User user);
 
-    @Path("/retrieveUser/{username}")
+    @Path("/user/{username}")
     @GET
     @Produces("application/xml")
     Response retrieveUser(@PathParam("username") String username);
 
-    @Path("/createBlogEntry")
-    @POST
-    @Produces("application/xml")
-    void createBlogEntry();
+//    @Path("/createBlogEntry")
+//    @POST
+//    @Produces("application/xml")
+//    Response createBlogEntry(@PathParam("blogContent") BlogEntry blogContent);
 
     @Path("/retrieveBlogEntry")
     @GET

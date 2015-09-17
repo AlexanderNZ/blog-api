@@ -1,13 +1,13 @@
 package communityblogger.services;
 
 
-import com.sun.xml.bind.v2.TODO;
 import communityblogger.domain.BlogEntry;
 import communityblogger.domain.User;
 
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -28,6 +28,7 @@ public class BloggerResourceImpl implements BloggerResource {
     private Map<Long, BlogEntry> _blogEntries;
     private AtomicLong _idCounter;
     private Map<String, User> userHashMap = new HashMap<String, User>();
+    private Map<Long, BlogEntry> blogEntryMap = new HashMap<Long, BlogEntry>();
 
 
     public BloggerResourceImpl() {
@@ -44,20 +45,19 @@ public class BloggerResourceImpl implements BloggerResource {
 
         userHashMap.put("Bertmern", new User("Bertmern", "Brerce", "Werne"));
         userHashMap.put("Spodermern", new User("Spodermern", "Terby", "Mergwer"));
+        //blogEntryMap.put("Test Blog Entry", new BlogEntry("XML Here"));
     }
 
     @Override
-    public Response createUser(String username, String lastname, String firstname) {
+    public Response createUser(User user) {
 
         //if username does not exist (need to figure out how to check if a user exists)
-        if (!userHashMap.containsKey(username)) {
+        if (!userHashMap.containsKey(user.getUsername())) {
 
-            //create the user
-            User createdUser = new User(username, lastname, firstname);
-            userHashMap.put(username, createdUser);
+            userHashMap.put(user.getUsername(), user);
 
-            return Response.status(201).entity(createdUser).link("http://0.0.0.0:10000/services/resources/retrieveUser/"
-                    + username, "Newly Created User URI").build();
+            return Response.status(201).link("/services/resources/retrieveUser/"
+                    + user.getUsername(), "resource").build();
 
         } else
             return Response.status(409).build();
@@ -81,10 +81,18 @@ public class BloggerResourceImpl implements BloggerResource {
 
     }
 
-    @Override
-    public void createBlogEntry() {
-
-    }
+//    @Override
+//    public Response createBlogEntry(BlogEntry blogContent) {
+//
+//            //create the user
+//            BlogEntry createdBlogEntry = new BlogEntry("XML Pliz");
+//        createdBlogEntry.setId(_idCounter.getAndIncrement());
+//            blogEntryMap.put(blogContent);
+//
+//            return Response.status(201).link("services/resources/"
+//                    + blogContent., "Newly Created User URI").build();
+//
+//    }
 
     @Override
     public void retrieveBlogEntry() {

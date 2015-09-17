@@ -1,5 +1,6 @@
 package communityblogger;
 
+import communityblogger.domain.BlogEntry;
 import communityblogger.domain.User;
 import communityblogger.services.BloggerResolver;
 import communityblogger.services.BloggerResource;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertNull;
 public class BloggerResourceImplTest {
 
 
+    User user;
     Response createdUser;
     Response testUser;
     Response response;
@@ -35,10 +37,21 @@ public class BloggerResourceImplTest {
     public void createUserSuccess() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        createdUser = bloggerResource.createUser("Increrderble Herlk", "created-last", "created-first");
+        user = new User("Increrderble Herlk", "created-last", "created-first");
+        Response response = bloggerResource.createUser(user);
 
-        //assertEquals(createdUser, bloggerResource.retrieveUser("createdUser"));
-        assertEquals(201, createdUser.getStatus());
+        assertEquals(201, response.getStatus());
+
+        String uri = response.getLink("resource").getUri().toString();
+        response.close();
+
+        String username = uri.replace("/services/resources/retrieveUser/", "");
+
+        response = bloggerResource.retrieveUser(username);
+        User retrievedUser = response.readEntity(User.class);
+
+        assertEquals(user.getUsername(), retrievedUser.getUsername());
+
     }
 
     /**
@@ -50,7 +63,7 @@ public class BloggerResourceImplTest {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
 
-        createdUser = bloggerResource.createUser("Bertmern", "Brerce", "Werne");
+        createdUser = bloggerResource.createUser(user);
 
         assertEquals(409, createdUser.getStatus());
 
@@ -70,9 +83,12 @@ public class BloggerResourceImplTest {
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
         BloggerResource bloggerResource = target.proxy(BloggerResource.class);
 
-        Response createUserIntegrationSuccess = bloggerResource.createUser("RNJesus", "created-last", "created-first");
+        User integrationUser1 = new User("RNJesus", "created-last", "created-first");
+        User integrationUser2 = new User("Bertmern", "Brerce", "Werne");
+
+        Response createUserIntegrationSuccess = bloggerResource.createUser(integrationUser1);
         createUserIntegrationSuccess.close();
-        Response createUserIntegrationFailure = bloggerResource.createUser("Bertmern", "Brerce", "Werne");
+        Response createUserIntegrationFailure = bloggerResource.createUser(integrationUser2);
         createUserIntegrationFailure.close();
 
         assertEquals(201, createUserIntegrationSuccess.getStatus());
@@ -137,4 +153,24 @@ public class BloggerResourceImplTest {
         assertEquals("Bertmern", user.getUsername());
 
     }
+
+//    /**
+//     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+//     *
+//     * @throws Exception
+//     */
+//    @org.junit.Test
+//    public void createBlogEntrySuccess() throws Exception {
+//
+//        BloggerResource bloggerResource = new BloggerResourceImpl();
+//        BlogEntry blogEntry = new BlogEntry("This is some content");
+//
+//        Response createdPost = bloggerResource.createBlogEntry(blogEntry);
+//
+//        assertEquals("201", createdPost.getStatus());
+//        assertEquals("http://0.0.0.0:10000/services/resources/createBlogEntry/" +  );
+//
+//
+//
+//    }
 }
