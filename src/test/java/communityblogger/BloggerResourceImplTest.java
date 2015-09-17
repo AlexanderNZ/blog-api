@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by alexcorkin on 10/09/2015.
@@ -21,7 +22,6 @@ import static org.junit.Assert.assertNull;
 public class BloggerResourceImplTest {
 
 
-    User user;
     Response createdUser;
     Response testUser;
     Response response;
@@ -37,18 +37,22 @@ public class BloggerResourceImplTest {
     public void createUserSuccess() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        user = new User("Increrderble Herlk", "created-last", "created-first");
+        User user = new User("Increrderble Herlk", "created-last", "created-first");
         Response response = bloggerResource.createUser(user);
 
         assertEquals(201, response.getStatus());
 
+        //Test that the generated URI is correct
         String uri = response.getLink("resource").getUri().toString();
         response.close();
 
-        String username = uri.replace("/services/resources/retrieveUser/", "");
+        String username = uri.replace("/services/resources/user/", "");
+        String result = java.net.URLDecoder.decode(username, "UTF-8");
 
-        response = bloggerResource.retrieveUser(username);
-        User retrievedUser = response.readEntity(User.class);
+        response = bloggerResource.retrieveUser(result);
+
+        assertEquals(200, response.getStatus());
+        User retrievedUser = (User) response.getEntity();
 
         assertEquals(user.getUsername(), retrievedUser.getUsername());
 
@@ -63,6 +67,7 @@ public class BloggerResourceImplTest {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
 
+        User user = new User("Bertmern", "Brerce", "Werne");
         createdUser = bloggerResource.createUser(user);
 
         assertEquals(409, createdUser.getStatus());
@@ -154,23 +159,65 @@ public class BloggerResourceImplTest {
 
     }
 
-//    /**
-//     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
-//     *
-//     * @throws Exception
-//     */
-//    @org.junit.Test
-//    public void createBlogEntrySuccess() throws Exception {
+    /**
+     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+     *
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createBlogEntrySuccess() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        BlogEntry createdBlogEntry = new BlogEntry("First item in blog hashmap");
+
+        Response retrievedPost = bloggerResource.createBlogEntry(createdBlogEntry);
+
+        assertEquals("201", retrievedPost.getStatus());
+
+//        //Test that the generated URI is correct
+//        String uri = response.getLink("resource").getUri().toString();
+//        response.close();
 //
-//        BloggerResource bloggerResource = new BloggerResourceImpl();
-//        BlogEntry blogEntry = new BlogEntry("This is some content");
+//        String username = uri.replace("/services/resources/blog/", "");
+//        String result = java.net.URLDecoder.decode(username, "UTF-8");
 //
-//        Response createdPost = bloggerResource.createBlogEntry(blogEntry);
+//        response = bloggerResource.retrieveBlogEntry(result);
 //
-//        assertEquals("201", createdPost.getStatus());
-//        assertEquals("http://0.0.0.0:10000/services/resources/createBlogEntry/" +  );
+//        assertEquals(200, response.getStatus());
+//        BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
 //
+//        assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
+
+    }
+
+    /**
+     * Retrieves a user that does not exist in the project, tests that a 404 is returned.
+     *
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void retrieveBlogEntrySuccess() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Response retrievedPost = bloggerResource.retrieveBlogEntry("0");
+
+        assertEquals(200, retrievedPost.getStatus());
+
+//        //Test that the generated URI is correct
+//        String uri = response.getLink("resource").getUri().toString();
+//        response.close();
 //
+//        String username = uri.replace("/services/resources/blog/", "");
+//        String result = java.net.URLDecoder.decode(username, "UTF-8");
 //
-//    }
+//        response = bloggerResource.retrieveBlogEntry(result);
+//
+//        assertEquals(200, response.getStatus());
+//        BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
+//
+//        assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
+
+    }
 }

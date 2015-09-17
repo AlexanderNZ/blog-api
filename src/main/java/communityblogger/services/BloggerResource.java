@@ -43,15 +43,15 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveUser(@PathParam("username") String username);
 
-//    @Path("/createBlogEntry")
-//    @POST
-//    @Produces("application/xml")
-//    Response createBlogEntry(@PathParam("blogContent") BlogEntry blogContent);
+    @Path("/blog")
+    @POST
+    @Consumes("application/xml")
+    Response createBlogEntry(BlogEntry blogEntry);
 
-    @Path("/retrieveBlogEntry")
+    @Path("/blog/{blogId}")
     @GET
     @Produces("application/xml")
-    void retrieveBlogEntry();
+    Response retrieveBlogEntry(@PathParam("blogId") String blogId);
 
     @Path("/createComment")
     @POST

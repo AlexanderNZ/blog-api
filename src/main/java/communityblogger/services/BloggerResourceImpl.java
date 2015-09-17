@@ -7,7 +7,6 @@ import communityblogger.domain.User;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -45,7 +44,7 @@ public class BloggerResourceImpl implements BloggerResource {
 
         userHashMap.put("Bertmern", new User("Bertmern", "Brerce", "Werne"));
         userHashMap.put("Spodermern", new User("Spodermern", "Terby", "Mergwer"));
-        //blogEntryMap.put("Test Blog Entry", new BlogEntry("XML Here"));
+        blogEntryMap.put(0l, new BlogEntry("Here is item 0 in blogEntryMap"));
     }
 
     @Override
@@ -56,7 +55,7 @@ public class BloggerResourceImpl implements BloggerResource {
 
             userHashMap.put(user.getUsername(), user);
 
-            return Response.status(201).link("/services/resources/retrieveUser/"
+            return Response.status(201).link("/services/resources/user/"
                     + user.getUsername(), "resource").build();
 
         } else
@@ -81,21 +80,33 @@ public class BloggerResourceImpl implements BloggerResource {
 
     }
 
-//    @Override
-//    public Response createBlogEntry(BlogEntry blogContent) {
-//
-//            //create the user
-//            BlogEntry createdBlogEntry = new BlogEntry("XML Pliz");
-//        createdBlogEntry.setId(_idCounter.getAndIncrement());
-//            blogEntryMap.put(blogContent);
-//
-//            return Response.status(201).link("services/resources/"
-//                    + blogContent., "Newly Created User URI").build();
-//
-//    }
+    @Override
+    public Response createBlogEntry(BlogEntry blogContent) {
+
+        //create the user
+        BlogEntry createdBlogEntry = new BlogEntry("XML Pliz");
+        createdBlogEntry.setId(_idCounter.getAndIncrement());
+        blogEntryMap.put(createdBlogEntry.getId(), createdBlogEntry);
+
+        return Response.status(201).link("services/resources/blog"
+                + blogContent.getId(), "resource").build();
+
+    }
 
     @Override
-    public void retrieveBlogEntry() {
+    public Response retrieveBlogEntry(String blogId) {
+
+        long blogIdlong = Long.parseLong(blogId);
+        //if blog entry exists, return blog entry
+        if (blogEntryMap.containsKey(blogIdlong)) {
+
+            //need to store this into an xml response body
+            return Response.status(200).entity(blogEntryMap.get(blogIdlong)).build();
+
+            //else return 404
+        } else {
+            return Response.status(404).build();
+        }
 
     }
 

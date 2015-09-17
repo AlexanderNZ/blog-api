@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +54,7 @@ import java.util.Set;
  *
  * @author Ian Warren
  */
+@XmlRootElement
 public class BlogEntry {
     private Long _id;
     private DateTime _timestamp;
@@ -96,6 +99,7 @@ public class BlogEntry {
     /**
      * Returns the unique ID of this BlogEntry.
      */
+    @XmlElement
     public Long getId() {
         return _id;
     }
@@ -130,6 +134,7 @@ public class BlogEntry {
     /**
      * Returns this BlogEntry's content.
      */
+    @XmlElement
     public String getContent() {
         return _content;
     }
@@ -144,6 +149,7 @@ public class BlogEntry {
     /**
      * Returns this BlogEntry's set of keywords.
      */
+    @XmlElement
     public Set<String> getKeywords() {
         // Return an unmodifiable set so that contents can't be changed.
         return Collections.unmodifiableSet(_keywords);
@@ -161,6 +167,7 @@ public class BlogEntry {
     /**
      * Returns this BlogEntry's author.
      */
+    @XmlElement
     public User getAuthor() {
         return _author;
     }
