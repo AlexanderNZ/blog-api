@@ -33,10 +33,11 @@ public class BloggerResourceImpl implements BloggerResource {
     public BloggerResourceImpl() {
         // TO DO:
         // Initialise instance variables.
+        initialiseContent();
 
     }
 
-    public void initialiseContent() {
+    public final void initialiseContent() {
         // TO DO:
         // (Re)-initialise data structures so that the Web service's state is
         // the same same as when the Web service was initially created.
@@ -55,8 +56,8 @@ public class BloggerResourceImpl implements BloggerResource {
             User createdUser = new User(username, lastname, firstname);
             userHashMap.put(username, createdUser);
 
-            //TODO - Don't forget to add a link header (.link()) to this return
-            return Response.status(201).entity(createdUser).build();
+            return Response.status(201).entity(createdUser).link("http://0.0.0.0:10000/services/resources/retrieveUser/"
+                    + username, "Newly Created User URI").build();
 
         } else
             return Response.status(409).build();

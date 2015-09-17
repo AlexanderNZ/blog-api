@@ -35,7 +35,6 @@ public class BloggerResourceImplTest {
     public void createUserSuccess() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        bloggerResource.initialiseContent();
         createdUser = bloggerResource.createUser("Increrderble Herlk", "created-last", "created-first");
 
         //assertEquals(createdUser, bloggerResource.retrieveUser("createdUser"));
@@ -50,7 +49,6 @@ public class BloggerResourceImplTest {
     public void createUserFailure() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        bloggerResource.initialiseContent();
 
         createdUser = bloggerResource.createUser("Bertmern", "Brerce", "Werne");
 
@@ -71,7 +69,6 @@ public class BloggerResourceImplTest {
         client.register(BloggerResolver.class);
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
         BloggerResource bloggerResource = target.proxy(BloggerResource.class);
-        bloggerResource.initialiseContent();
 
         Response createUserIntegrationSuccess = bloggerResource.createUser("RNJesus", "created-last", "created-first");
         createUserIntegrationSuccess.close();
@@ -91,7 +88,6 @@ public class BloggerResourceImplTest {
     public void retrieveNonExistentUser() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        bloggerResource.initialiseContent();
 
         testUser = bloggerResource.retrieveUser("Chigger");
 
@@ -111,7 +107,6 @@ public class BloggerResourceImplTest {
     public void retrieveUser() throws Exception {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
-        bloggerResource.initialiseContent();
 
         response = bloggerResource.retrieveUser("Bertmern");
         User user = (User) response.getEntity();
@@ -133,7 +128,6 @@ public class BloggerResourceImplTest {
         client.register(BloggerResolver.class);
         ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
         BloggerResource bloggerResource = target.proxy(BloggerResource.class);
-        bloggerResource.initialiseContent();
 
         retreieveUserIntegration = bloggerResource.retrieveUser("Bertmern");
 
