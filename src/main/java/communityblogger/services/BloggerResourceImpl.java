@@ -2,10 +2,10 @@ package communityblogger.services;
 
 
 import communityblogger.domain.BlogEntry;
+import communityblogger.domain.Comment;
 import communityblogger.domain.User;
 import org.joda.time.DateTime;
 
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +55,8 @@ public class BloggerResourceImpl implements BloggerResource {
         testBlogEntry.setTimePosted(DateTime.now());
         User testBlogCreator = userHashMap.get("Spodermern");
         testBlogCreator.addBlogEntry(testBlogEntry);
+        Comment testComment = new Comment("I'm a test comment", DateTime.now());
+        testBlogEntry.addComment(testComment);
         blogEntryMap.put(0l, testBlogEntry);
     }
 
@@ -103,8 +105,6 @@ public class BloggerResourceImpl implements BloggerResource {
             blogAuthor.addBlogEntry(blogEntry);
             blogEntryMap.put(blogEntry.getId(), blogEntry);
 
-            //TODO Add to object: Timestamp, username cookie value - this request needs a cookie header - request only successful when made by a user stored in the hash map
-
             return Response.status(201).link("/services/resources/blog/"
                     + blogEntry.getId(), "resource").build();
 
@@ -138,8 +138,22 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public void retrieveComments() {
+    public Response retrieveComments(String blogId) {
 
+        //if blog entry exists, return 200 OK
+        //Response body must contain XML of Set of comments
+        //Each comment should contain the username of the comment author, content and timestamp
+
+        long blogIdlong = Long.parseLong(blogId);
+        if (blogEntryMap.containsKey(blogIdlong)){
+
+            BlogEntry blogEntry = blogEntryMap.get(blogIdlong);
+            Set<Comment> comments = blogEntry.getComments();
+            return Response.status(200).entity(comments).build();
+        }
+
+        //if request fails, return 404
+        return Response.status(404).build();
     }
 
     @Override

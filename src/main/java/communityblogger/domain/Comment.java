@@ -17,6 +17,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /*
  * Use the Joda Date/Time library for working with Dates.
  *
@@ -42,11 +45,16 @@ import org.joda.time.DateTime;
  *
  * @author Ian Warren
  */
+
+@XmlRootElement
 public class Comment implements Comparable<Comment> {
     private DateTime _timestamp;
     private String _content;
     private User _author;
 
+    public Comment() {
+        this(null, null);
+    }
 
     /**
      * Creates a Comment object.
@@ -62,6 +70,8 @@ public class Comment implements Comparable<Comment> {
     /**
      * Returns the time at which this Comment was made.
      */
+
+    @XmlElement
     public DateTime getTimePosted() {
         return _timestamp;
     }
@@ -69,6 +79,7 @@ public class Comment implements Comparable<Comment> {
     /**
      * Returns this Comment's content.
      */
+    @XmlElement
     public String getContent() {
         return _content;
     }
@@ -76,6 +87,7 @@ public class Comment implements Comparable<Comment> {
     /**
      * Returns this Comment's author.
      */
+    @XmlElement
     public User getAuthor() {
         return _author;
     }

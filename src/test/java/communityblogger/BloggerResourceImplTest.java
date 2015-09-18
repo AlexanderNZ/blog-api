@@ -192,7 +192,7 @@ public class BloggerResourceImplTest {
     }
 
     /**
-     * Creates a blog entry.
+     * Fails to create a blog entry.
      *
      * @throws Exception
      */
@@ -242,9 +242,8 @@ public class BloggerResourceImplTest {
     }
 
     /**
-     * Test attempts to create a new user that does not exist in the hashmap already, then creates one that already
-     * exists in the hash map
-     * Tests this against a deployed webserver
+     * Integrates blog entry creation success and failure tests.
+     * Tests against webserver
      * @throws Exception
      */
     @org.junit.Test
@@ -271,5 +270,50 @@ public class BloggerResourceImplTest {
 
         assertEquals(201, createBlogEntryIntegrationSuccess.getStatus());
         assertEquals(412, createBlogEntryIntegrationFail.getStatus());
+    }
+
+    /**
+     * Returns an XML representation of a set of blog comments successfully
+     */
+    @org.junit.Test
+    public void retrieveBlogEntryCommentsSuccess() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+        Response retrievedComments = bloggerResource.retrieveComments("0");
+        assertEquals(200, retrievedComments.getStatus());
+    }
+
+    /**
+     * Fails to return an XML representation of a set of blog comments successfully
+     */
+    @org.junit.Test
+    public void retrieveBlogEntryCommentsFail() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+        Response retrievedComments = bloggerResource.retrieveComments("-12");
+        assertEquals(404, retrievedComments.getStatus());
+    }
+
+    /**
+     * Integrates success and failure cases of the return blog comments tests,
+     * tests them against the webserver
+     */
+    @org.junit.Test
+    public void retrieveBlogEntryCommentsIntegration() throws Exception {
+
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        client.register(BloggerResolver.class);
+        ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
+        BloggerResource bloggerResource = target.proxy(BloggerResource.class);
+
+        bloggerResource.initialiseContent();
+
+        Response retrievedCommentsIntegrationSuccess = bloggerResource.retrieveComments("0");
+        assertEquals(200, retrievedCommentsIntegrationSuccess.getStatus());
+        retrievedCommentsIntegrationSuccess.close();
+
+        Response retrievedCommentsIntegrationFail = bloggerResource.retrieveComments("-12");
+        assertEquals(404, retrievedCommentsIntegrationFail.getStatus());
+        retrievedCommentsIntegrationFail.close();
     }
 }

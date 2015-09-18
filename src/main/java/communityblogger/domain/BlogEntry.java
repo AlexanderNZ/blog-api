@@ -190,6 +190,7 @@ public class BlogEntry {
     /**
      * Returns this BlogEntry's set of Comments.
      */
+    @XmlElement
     public Set<Comment> getComments() {
         return Collections.unmodifiableSet(_comments);
     }
