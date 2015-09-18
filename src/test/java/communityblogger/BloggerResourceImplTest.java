@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by alexcorkin on 10/09/2015.
@@ -175,19 +174,18 @@ public class BloggerResourceImplTest {
 
         assertEquals(201, response.getStatus());
 
-//        //Test that the generated URI is correct
-//        String uri = response.getLink("resource").getUri().toString();
-//        response.close();
-//
-//        String username = uri.replace("/services/resources/blog/", "");
-//        String result = java.net.URLDecoder.decode(username, "UTF-8");
-//
-//        response = bloggerResource.retrieveBlogEntry(result);
-//
-//        assertEquals(200, response.getStatus());
-//        BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
-//
-//        assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
+        //Test that the generated URI is correct
+        String uri = response.getLink("resource").getUri().toString();
+        response.close();
+
+        String blogEntryHashLocation = uri.replace("/services/resources/blog/", "");
+        String result = java.net.URLDecoder.decode(blogEntryHashLocation, "UTF-8");
+
+        response = bloggerResource.retrieveBlogEntry(result);
+
+        BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
+
+        assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
 
     }
 
@@ -204,20 +202,6 @@ public class BloggerResourceImplTest {
         Response retrievedPost = bloggerResource.retrieveBlogEntry("0");
 
         assertEquals(200, retrievedPost.getStatus());
-
-//        //Test that the generated URI is correct
-//        String uri = response.getLink("resource").getUri().toString();
-//        response.close();
-//
-//        String username = uri.replace("/services/resources/blog/", "");
-//        String result = java.net.URLDecoder.decode(username, "UTF-8");
-//
-//        response = bloggerResource.retrieveBlogEntry(result);
-//
-//        assertEquals(200, response.getStatus());
-//        BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
-//
-//        assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
 
     }
 }
