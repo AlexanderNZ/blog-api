@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -116,7 +117,7 @@ public class User {
     /**
      * Returns the set of blog entries posted by this User.
      */
-    @XmlElement
+    @XmlTransient
     public Set<BlogEntry> getBlogEntries() {
         return Collections.unmodifiableSet(_blogEntriesPosted);
     }
@@ -124,7 +125,7 @@ public class User {
     /**
      * Returns the set of comments posted by this User.
      */
-    @XmlElement
+    @XmlTransient
     public Set<Comment> getComments() {
         return Collections.unmodifiableSet(_commentsPosted);
     }

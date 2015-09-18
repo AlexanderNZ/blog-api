@@ -187,6 +187,26 @@ public class BloggerResourceImplTest {
 
         assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
 
+        //TODO - UPDATE TO DEAL WITH CYCLES CAUSED BY URI HEADER
+
+    }
+
+    /**
+     * Creates a blog entry.
+     *
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createBlogEntryFail() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        BlogEntry createdBlogEntry = new BlogEntry("This will never get recorded, java sux.");
+
+        Response response = bloggerResource.createBlogEntry(createdBlogEntry, "SomeUnauthorisedDickhead");
+
+        assertEquals(412, response.getStatus());
+
     }
 
     /**
@@ -203,5 +223,53 @@ public class BloggerResourceImplTest {
 
         assertEquals(200, retrievedPost.getStatus());
 
+    }
+
+    /**
+     * Fails to retrieve a blog entry
+     *
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void retrieveBlogEntryFail() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Response retrievedPost = bloggerResource.retrieveBlogEntry("60");
+
+        assertEquals(404, retrievedPost.getStatus());
+
+    }
+
+    /**
+     * Test attempts to create a new user that does not exist in the hashmap already, then creates one that already
+     * exists in the hash map
+     * Tests this against a deployed webserver
+     * @throws Exception
+     */
+    @org.junit.Test
+    public void createBlogEntryIntegration() throws Exception {
+
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        client.register(BloggerResolver.class);
+        ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
+        BloggerResource bloggerResource = target.proxy(BloggerResource.class);
+
+        bloggerResource.initialiseContent();
+
+        User integrationUser1 = new User("RNJesus", "created-last", "created-first");
+        BlogEntry integrationBlogEntry1 = new BlogEntry("Blogs smell");
+        BlogEntry integrationBlogEntry2 = new BlogEntry("Blogs smell doubly bad");
+
+        Response createUserIntegrationSuccess = bloggerResource.createUser(integrationUser1);
+        createUserIntegrationSuccess.close();
+
+        Response createBlogEntryIntegrationSuccess = bloggerResource.createBlogEntry(integrationBlogEntry1, "RNJesus");
+        createBlogEntryIntegrationSuccess.close();
+        Response createBlogEntryIntegrationFail = bloggerResource.createBlogEntry(integrationBlogEntry2, "Pacman");
+        createBlogEntryIntegrationFail.close();
+
+        assertEquals(201, createBlogEntryIntegrationSuccess.getStatus());
+        assertEquals(412, createBlogEntryIntegrationFail.getStatus());
     }
 }
