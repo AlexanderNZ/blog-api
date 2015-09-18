@@ -97,7 +97,7 @@ public class BloggerResourceImpl implements BloggerResource {
     public Response createBlogEntry(BlogEntry blogEntry, String username) {
 
 
-        if (userHashMap.containsKey(username)){
+        if (userHashMap.containsKey(username)) {
             User blogAuthor = userHashMap.get(username);
             //then user exists and request should succeed
             blogEntry.setId(_idCounter.getAndIncrement());
@@ -145,7 +145,7 @@ public class BloggerResourceImpl implements BloggerResource {
         //Each comment should contain the username of the comment author, content and timestamp
 
         long blogIdlong = Long.parseLong(blogId);
-        if (blogEntryMap.containsKey(blogIdlong)){
+        if (blogEntryMap.containsKey(blogIdlong)) {
 
             BlogEntry blogEntry = blogEntryMap.get(blogIdlong);
             Set<Comment> comments = blogEntry.getComments();

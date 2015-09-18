@@ -59,6 +59,7 @@ public class BloggerResourceImplTest {
 
     /**
      * Test that fails to create a user
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -77,6 +78,7 @@ public class BloggerResourceImplTest {
      * Test attempts to create a new user that does not exist in the hashmap already, then creates one that already
      * exists in the hash map
      * Tests this against a deployed webserver
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -139,6 +141,7 @@ public class BloggerResourceImplTest {
     /**
      * Retrieves a user that exists, tests that 200 and the user is returned
      * Tests this against a deployed webserver
+     *
      * @throws Exception
      */
     @org.junit.Test
@@ -244,6 +247,7 @@ public class BloggerResourceImplTest {
     /**
      * Integrates blog entry creation success and failure tests.
      * Tests against webserver
+     *
      * @throws Exception
      */
     @org.junit.Test

@@ -26,19 +26,19 @@ import java.util.Set;
 /**
  * Class to represent users in the Community Blogger Web service. A User object
  * stores the following data:
- * <p/>
+ * <p>
  * - user-name, a unique username for the User. It is the caller's responsibility
  * to ensure that any username value given to User's constructor is unique.
- * <p/>
+ * <p>
  * - last-name, the User's last name.
- * <p/>
+ * <p>
  * - first-name, the User's first name.
- * <p/>
+ * <p>
  * - blog entries, a set of BlogEntry objects representing blog entries that
  * have been posted by this User.
- * <p/>
+ * <p>
  * - comments, a set of Comment objects that have been made by this User.
- * <p/>
+ * <p>
  * Class User is not thread-safe. It is the class user's responsibility to
  * ensure that any concurrent access to User objects is managed
  * appropriately.
@@ -140,7 +140,7 @@ public class User {
 
     /**
      * Adds a BlogEntry to this User (the User is the author).
-     * <p/>
+     * <p>
      * This method ensures that the BlogEntry object stores a link back to this
      * User.
      *
@@ -158,7 +158,7 @@ public class User {
 
     /**
      * Adds a Comment to this User (the User is the author).
-     * <p/>
+     * <p>
      * This method ensures that the Comment object stores a link back to this
      * User.
      *

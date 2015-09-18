@@ -32,13 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Class to represent a comment made by a User on a BlogEntry. A Comment object
  * holds the following data:
- * <p/>
+ * <p>
  * - timestamp, which stores the time when the Comment was made.
- * <p/>
+ * <p>
  * - content, the comment's text.
- * <p/>
+ * <p>
  * - author, the User who made the comment.
- * <p/>
+ * <p>
  * Class Comment is not thread-safe. It is the class user's responsibility to
  * ensure that any concurrent access to Comment objects is managed
  * appropriately.
@@ -72,8 +72,17 @@ public class Comment implements Comparable<Comment> {
      */
 
     @XmlElement
-    public DateTime getTimePosted() {
+    public DateTime getTimestamp() {
         return _timestamp;
+    }
+
+    /**
+     * Sets the time at which this Comment was made.
+     *
+     * @param timestamp the creation date/time.
+     */
+    public void setTimestamp(DateTime timestamp) {
+        _timestamp = timestamp;
     }
 
     /**
@@ -82,6 +91,10 @@ public class Comment implements Comparable<Comment> {
     @XmlElement
     public String getContent() {
         return _content;
+    }
+
+    public void setContent(String _content) {
+        this._content = _content;
     }
 
     /**
@@ -94,7 +107,7 @@ public class Comment implements Comparable<Comment> {
 
     /**
      * Sets the User who has authored this Comment.
-     * <p/>
+     * <p>
      * Note that this method has package visibility, so can only be called by
      * classes within the same package. This is a form of encapsulation that
      * prevents unintended use of this method. Class User calls this method to
@@ -107,14 +120,6 @@ public class Comment implements Comparable<Comment> {
         _author = user;
     }
 
-    /**
-     * Sets the time at which this Comment was made.
-     *
-     * @param timestamp the creation date/time.
-     */
-    public void setTimestamp(DateTime timestamp) {
-        _timestamp = timestamp;
-    }
 
     /**
      * Return true if this Comment object is equal in value to the method
