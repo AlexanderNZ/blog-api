@@ -133,7 +133,7 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public void createComment() {
+    public void createComment(String blogId, String username) {
 
     }
 

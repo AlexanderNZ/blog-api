@@ -1,6 +1,7 @@
 package communityblogger;
 
 import communityblogger.domain.BlogEntry;
+import communityblogger.domain.Comment;
 import communityblogger.domain.User;
 import communityblogger.services.BloggerResolver;
 import communityblogger.services.BloggerResource;
@@ -10,6 +11,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ws.rs.core.Response;
+
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -319,5 +322,19 @@ public class BloggerResourceImplTest {
         Response retrievedCommentsIntegrationFail = bloggerResource.retrieveComments("-12");
         assertEquals(404, retrievedCommentsIntegrationFail.getStatus());
         retrievedCommentsIntegrationFail.close();
+    }
+
+    /**
+     * Creates a blog entry comment, attaches that comment to a specified blog entry
+     * Request should include a cookie header with username - this is comment author.
+     * Request must identify a blog entry that exists in a hash map
+     *
+     */
+    @org.junit.Test
+    public void createBlogEntryCommentSuccess() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Response blogToBeCommentedOn = bloggerResource.retrieveBlogEntry()
     }
 }

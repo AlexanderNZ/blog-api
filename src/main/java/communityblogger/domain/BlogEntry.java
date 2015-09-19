@@ -120,6 +120,7 @@ public class BlogEntry {
     /**
      * Returns the date/time at which this BlogEntry was posted.
      */
+    @XmlElement
     public DateTime getTimePosted() {
         return _timestamp;
     }
@@ -190,7 +191,7 @@ public class BlogEntry {
     /**
      * Returns this BlogEntry's set of Comments.
      */
-    @XmlElement
+
     public Set<Comment> getComments() {
         return Collections.unmodifiableSet(_comments);
     }

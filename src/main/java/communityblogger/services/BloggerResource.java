@@ -5,6 +5,7 @@ import communityblogger.domain.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 @Path("resources")
 public interface BloggerResource {
@@ -53,10 +54,10 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveBlogEntry(@PathParam("blogId") String blogId);
 
-    @Path("/comments")
+    @Path("/comments/{blogId}")
     @POST
     @Produces("application/xml")
-    void createComment();
+    Response void createComment(@PathParam("blogId"), String blogId, @CookieParam("username"), String username);
 
     @Path("/comments/{blogId}")
     @GET
