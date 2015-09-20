@@ -152,23 +152,25 @@ public class BloggerResourceImpl implements BloggerResource {
         return response;
     }
 
+
     @Override
     public Response retrieveComments(String blogId) {
 
-        //if blog entry exists, return 200 OK
-        //Response body must contain XML of Set of comments
-        //Each comment should contain the username of the comment author, content and timestamp
+        //pull out the blogEntry we need to get comments from
+        long blogIDLong = Long.parseLong(blogId);
+        BlogEntry blogEntryForComments = blogEntryMap.get(blogIDLong);
 
-        long blogIdlong = Long.parseLong(blogId);
-        if (blogEntryMap.containsKey(blogIdlong)) {
+        if (blogEntryMap.containsKey(blogIDLong)){
+            //pull out the comments associated with that entry
+            List<Comment> commentList = new ArrayList<Comment>(blogEntryForComments.getComments());
 
-            BlogEntry blogEntry = blogEntryMap.get(blogIdlong);
-            Set<Comment> comments = blogEntry.getComments();
-            return Response.status(200).entity(comments).build();
+            //transform to GenericEntityList for the purposes of marshalling
+            GenericEntity<List<Comment>> listGenericEntity = new GenericEntity<List<Comment>>(commentList) {};
+
+            return Response.status(200).entity(listGenericEntity).build();
+        } else {
+            return Response.status(404).build();
         }
-
-        //if request fails, return 404
-        return Response.status(404).build();
     }
 
     @Override

@@ -59,12 +59,12 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response createComment();
 
-    @Path("/comments/")
+    @Path("/comments/{blogId}")
     @GET
     @Produces("application/xml")
     Response retrieveComments(@PathParam("blogId") String blogId);
 
-    @Path("/blogSets/")
+    @Path("/blogSet/")
     @GET
     @Produces("application/xml")
     Response retrieveBlogEntries();
