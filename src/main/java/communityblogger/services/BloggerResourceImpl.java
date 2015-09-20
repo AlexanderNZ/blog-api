@@ -7,6 +7,7 @@ import communityblogger.domain.User;
 import org.apache.log4j.BasicConfigurator;
 import org.joda.time.DateTime;
 
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -59,6 +60,17 @@ public class BloggerResourceImpl implements BloggerResource {
         Comment testComment = new Comment("I'm a test comment", DateTime.now());
         testBlogEntry.addComment(testComment);
         blogEntryMap.put(0l, testBlogEntry);
+
+        //to prove sets of blog entries, make another blog entry
+
+        BlogEntry testBlogEntry2 = new BlogEntry("Here is item 1 - second item - pls werk");
+        testBlogEntry2.setId(_idCounter.getAndIncrement());
+        testBlogEntry2.setTimePosted(DateTime.now());
+        User testBlogCreator2 = userHashMap.get("Bertmern");
+        testBlogCreator2.addBlogEntry(testBlogEntry2);
+        Comment testComment2 = new Comment("Plz comment moar", DateTime.now());
+        testBlogEntry2.addComment(testComment2);
+        blogEntryMap.put(1l, testBlogEntry2);
     }
 
     @Override
@@ -160,22 +172,13 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response retrieveBlogEntries(String blogAuthor) {
+    public Response retrieveBlogEntries() {
 
-        Collection blogCollection = blogEntryMap.values();
+        List<BlogEntry> blogEntries = new ArrayList<BlogEntry>(blogEntryMap.values());
 
-        Collection<BlogEntry> authorReducedList = blogCollection;
-        Collection<BlogEntry> listToBeReturned = null;
-        for (BlogEntry blogEntry : authorReducedList){
-                if (blogEntry.getAuthor().equals(blogAuthor)){
-                    listToBeReturned.add(blogEntry);
-                }
-        }
-        //return only items posted by blogAuthor
+        GenericEntity<List<BlogEntry>> entity = new GenericEntity<List<BlogEntry>>(blogEntries) {};
 
-
-        //sets
-        return Response.status(200).entity(blogCollection).build();
+        return Response.status(200).entity(entity).build();
     }
 
     @Override

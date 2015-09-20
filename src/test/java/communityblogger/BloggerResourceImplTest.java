@@ -343,7 +343,7 @@ public class BloggerResourceImplTest {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
 
-        Response retrievedBlogEntriesResponse = bloggerResource.retrieveBlogEntries("Spoderman");
+        Response retrievedBlogEntriesResponse = bloggerResource.retrieveBlogEntries();
 
         assertEquals(200, retrievedBlogEntriesResponse.getStatus());
     }
