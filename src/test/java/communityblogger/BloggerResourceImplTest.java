@@ -333,8 +333,18 @@ public class BloggerResourceImplTest {
     @org.junit.Test
     public void createBlogEntryCommentSuccess() throws Exception {
 
+    }
+
+    /**
+     * Retrieves a set of blog entries
+     */
+    @org.junit.Test
+    public void retrieveBlogEntriesSuccess() throws Exception {
+
         BloggerResource bloggerResource = new BloggerResourceImpl();
 
-        Response blogToBeCommentedOn = bloggerResource.retrieveBlogEntry()
+        Response retrievedBlogEntriesResponse = bloggerResource.retrieveBlogEntries();
+
+        assertEquals(200, retrievedBlogEntriesResponse.getStatus());
     }
 }

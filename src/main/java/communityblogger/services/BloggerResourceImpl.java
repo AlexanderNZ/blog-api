@@ -7,6 +7,7 @@ import communityblogger.domain.User;
 import org.joda.time.DateTime;
 
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -133,8 +134,10 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public void createComment(String blogId, String username) {
+    public Response createComment() {
 
+        Response response = null;
+        return response;
     }
 
     @Override
@@ -157,8 +160,12 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public void retrieveBlogEntries() {
+    public Response retrieveBlogEntries() {
 
+        Collection blogCollection = blogEntryMap.values();
+
+        //sets
+        return Response.status(200).entity(blogCollection).build();
     }
 
     @Override

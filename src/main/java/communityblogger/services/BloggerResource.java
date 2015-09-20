@@ -54,21 +54,20 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveBlogEntry(@PathParam("blogId") String blogId);
 
-    @Path("/comments/{blogId}")
+    @Path("/comments/")
     @POST
     @Produces("application/xml")
-    Response void createComment(@PathParam("blogId"), String blogId, @CookieParam("username"), String username);
+    Response createComment();
 
     @Path("/comments/{blogId}")
     @GET
     @Produces("application/xml")
     Response retrieveComments(@PathParam("blogId") String blogId);
 
-    //nfi on this one
-    @Path("/retrieveBlogEntries")
-    @POST
+    @Path("/blogSets")
+    @GET
     @Produces("application/xml")
-    void retrieveBlogEntries();
+    Response retrieveBlogEntries(@QueryParam(""));
 
     @Path("/followBlogEntry")
     @PUT
