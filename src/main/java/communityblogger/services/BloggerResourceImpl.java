@@ -4,13 +4,11 @@ package communityblogger.services;
 import communityblogger.domain.BlogEntry;
 import communityblogger.domain.Comment;
 import communityblogger.domain.User;
+import org.apache.log4j.BasicConfigurator;
 import org.joda.time.DateTime;
 
 import javax.ws.rs.core.Response;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -45,6 +43,8 @@ public class BloggerResourceImpl implements BloggerResource {
         // TO DO:
         // (Re)-initialise data structures so that the Web service's state is
         // the same same as when the Web service was initially created.
+
+        BasicConfigurator.configure();
 
         _idCounter = new AtomicLong(0);
         userHashMap.put("Bertmern", new User("Bertmern", "Brerce", "Werne"));
@@ -160,9 +160,19 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response retrieveBlogEntries() {
+    public Response retrieveBlogEntries(String blogAuthor) {
 
         Collection blogCollection = blogEntryMap.values();
+
+        Collection<BlogEntry> authorReducedList = blogCollection;
+        Collection<BlogEntry> listToBeReturned = null;
+        for (BlogEntry blogEntry : authorReducedList){
+                if (blogEntry.getAuthor().equals(blogAuthor)){
+                    listToBeReturned.add(blogEntry);
+                }
+        }
+        //return only items posted by blogAuthor
+
 
         //sets
         return Response.status(200).entity(blogCollection).build();

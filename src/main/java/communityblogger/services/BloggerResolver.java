@@ -1,5 +1,6 @@
 package communityblogger.services;
 
+import communityblogger.domain.Comment;
 import communityblogger.domain.User;
 
 import javax.ws.rs.Produces;
@@ -18,10 +19,7 @@ public class BloggerResolver implements ContextResolver<JAXBContext> {
     // Add to the _classes array the classes whose object are to be marshalled/
     // unmarshalled to/from XML. Objects of these class will be exchanged by
     // clients and your Web service.
-    private Class<?>[] _classes = {User.class};
-
-//	Marshaller marshaller = _context.createMarshaller();
-//	Unmarshaller unmarshaller = _context.createUnmarshaller();
+    private Class<?>[] _classes = {User.class, Comment.class};
 
     public BloggerResolver() {
         try {

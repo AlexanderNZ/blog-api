@@ -64,10 +64,10 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveComments(@PathParam("blogId") String blogId);
 
-    @Path("/blogSets")
+    @Path("/blogSets/{blogAuthor}")
     @GET
     @Produces("application/xml")
-    Response retrieveBlogEntries(@QueryParam(""));
+    Response retrieveBlogEntries(@PathParam("blogAuthor") String blogAuthor);
 
     @Path("/followBlogEntry")
     @PUT
