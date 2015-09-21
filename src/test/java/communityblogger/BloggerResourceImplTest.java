@@ -379,4 +379,82 @@ public class BloggerResourceImplTest {
 
         assertEquals(200, retrievedBlogEntriesResponse.getStatus());
     }
+
+    /**
+     * All singing all dancing integration test pls dont break
+     */
+    @org.junit.Test
+    public void theTestToEndAllTests() throws Exception {
+
+        //Set up web server / client
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        client.register(BloggerResolver.class);
+        ResteasyWebTarget target = client.target("http://0.0.0.0:10000/services/");
+        BloggerResource bloggerResource = target.proxy(BloggerResource.class);
+
+        //Test Create and Retrieve User
+        User integrationUser1 = new User("gizmo", "gizmo", "ludus-first");
+        User integrationUser2 = new User("Bertmern", "Brerce", "Werne");
+
+        Response createUserIntegrationSuccess = bloggerResource.createUser(integrationUser1);
+        createUserIntegrationSuccess.close();
+        Response createUserIntegrationFailure = bloggerResource.createUser(integrationUser2);
+        createUserIntegrationFailure.close();
+
+        assertEquals(201, createUserIntegrationSuccess.getStatus());
+        assertEquals(409, createUserIntegrationFailure.getStatus());
+
+        Response retrieveUserIntegrationSuccess = bloggerResource.retrieveUser("gizmo");
+        retrieveUserIntegrationSuccess.close();
+        Response retrieveUserIntegrationFailure = bloggerResource.retrieveUser("903712987361923189276");
+        retrieveUserIntegrationFailure.close();
+
+        assertEquals(200, retrieveUserIntegrationSuccess.getStatus());
+        assertEquals(404, retrieveUserIntegrationFailure.getStatus());
+
+        //Test Retrieve and Create Blog Entry
+
+        BlogEntry blogEntry = new BlogEntry("theTestToEndAllTests");
+
+        Response blogEntryFinalIntegrationSuccess = bloggerResource.createBlogEntry(blogEntry, "gizmo");
+        blogEntryFinalIntegrationSuccess.close();
+        assertEquals(201, blogEntryFinalIntegrationSuccess.getStatus());
+
+        Response blogEntryFinalIntegrationFail = bloggerResource.createBlogEntry(blogEntry, "noteveninyoursystem");
+        blogEntryFinalIntegrationFail.close();
+        assertEquals(412, blogEntryFinalIntegrationFail.getStatus());
+
+        Response blogEntryRetrievedSuccess = bloggerResource.retrieveBlogEntry("2");
+        blogEntryRetrievedSuccess.close();
+        assertEquals(200, blogEntryRetrievedSuccess.getStatus());
+
+        Response blogEntryRetrievedFail = bloggerResource.retrieveBlogEntry("345");
+        blogEntryRetrievedFail.close();
+        assertEquals(404, blogEntryRetrievedFail.getStatus());
+
+        //Test Retrieve Comment
+
+        Response retrievedCommentIntegration = bloggerResource.retrieveComments("0");
+        retrievedCommentIntegration.close();
+        assertEquals(200, retrievedCommentIntegration.getStatus());
+
+        Response retrievedCommentIntegrationFail = bloggerResource.retrieveComments("345");
+        retrievedCommentIntegrationFail.close();
+        assertEquals(404, retrievedCommentIntegrationFail.getStatus());
+
+        //Test Create Comment
+        Comment comment = new Comment("integration integration integration", DateTime.now());
+        Response createdComment = bloggerResource.createComment(comment, "0", "Bertmern");
+        createdComment.close();
+        assertEquals(201, createdComment.getStatus());
+
+        Response createdCommentDail = bloggerResource.createComment(comment, "0909", "Bertmern");
+        createdCommentDail.close();
+        assertEquals(404, createdCommentDail.getStatus());
+
+        Response createdCommentFail = bloggerResource.createComment(comment, "0", "nobody");
+        createdCommentDail.close();
+        assertEquals(412, createdCommentFail.getStatus());
+        //Test Retrieve Blog Entries
+    }
 }
