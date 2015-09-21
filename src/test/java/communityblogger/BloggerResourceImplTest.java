@@ -193,9 +193,6 @@ public class BloggerResourceImplTest {
         BlogEntry retrievedBlogEntry = (BlogEntry) response.getEntity();
 
         assertEquals(retrievedBlogEntry.getId(), retrievedBlogEntry.getId());
-
-        //TODO - UPDATE TO DEAL WITH CYCLES CAUSED BY URI HEADER
-
     }
 
     /**
