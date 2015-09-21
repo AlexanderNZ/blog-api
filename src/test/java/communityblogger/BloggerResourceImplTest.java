@@ -9,6 +9,7 @@ import communityblogger.services.BloggerResourceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.joda.time.DateTime;
 
 import javax.ws.rs.core.Response;
 
@@ -333,6 +334,37 @@ public class BloggerResourceImplTest {
     @org.junit.Test
     public void createBlogEntryCommentSuccess() throws Exception {
 
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Comment blogComment = new Comment("This is a comment from createBlogEntryCommentSuccess", DateTime.now());
+
+        Response response = bloggerResource.createComment(blogComment, "0", "Bertmern");
+
+        assertEquals(201, response.getStatus());
+    }
+
+    @org.junit.Test
+    public void createBlogEntryCommentBlogEntry404() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Comment blogComment = new Comment("This is a comment from createBlogEntryCommentSuccess", DateTime.now());
+
+        Response response = bloggerResource.createComment(blogComment, "41", "Bertmern");
+
+        assertEquals(404, response.getStatus());
+    }
+
+    @org.junit.Test
+    public void createBlogEntryCommentUserNotAuthorised() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        Comment blogComment = new Comment("This is a comment from createBlogEntryCommentSuccess", DateTime.now());
+
+        Response response = bloggerResource.createComment(blogComment, "0", "Chooooooo");
+
+        assertEquals(412, response.getStatus());
     }
 
     /**

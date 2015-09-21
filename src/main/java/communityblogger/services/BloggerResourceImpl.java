@@ -9,7 +9,10 @@ import org.joda.time.DateTime;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -146,10 +149,25 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response createComment() {
+    public Response createComment(Comment comment, String blogId, String username) {
 
-        Response response = null;
-        return response;
+        //pull out blogID we need to attach the comment too
+        long blogIDLong = Long.parseLong(blogId);
+
+        //a 412 (Precondition Failed) code is returned if the required cookie is absent or its value doesn't identify a registered user.
+        if (!userHashMap.containsKey(username)) {
+            return Response.status(412).build();
+        }
+
+        //Where the cookie is valid but the blog entry fails to match a known blog entry, the Web service returns a 404 response.
+        if (!blogEntryMap.containsKey(blogIDLong)) {
+            return Response.status(404).build();
+        }
+
+        BlogEntry blogEntryToAttachCommentTo = blogEntryMap.get(blogIDLong);
+        blogEntryToAttachCommentTo.addComment(comment);
+
+        return Response.status(201).build();
     }
 
 
@@ -158,14 +176,15 @@ public class BloggerResourceImpl implements BloggerResource {
 
         //pull out the blogEntry we need to get comments from
         long blogIDLong = Long.parseLong(blogId);
-        BlogEntry blogEntryForComments = blogEntryMap.get(blogIDLong);
 
-        if (blogEntryMap.containsKey(blogIDLong)){
+        if (blogEntryMap.containsKey(blogIDLong)) {
+            BlogEntry blogEntryForComments = blogEntryMap.get(blogIDLong);
             //pull out the comments associated with that entry
             List<Comment> commentList = new ArrayList<Comment>(blogEntryForComments.getComments());
 
             //transform to GenericEntityList for the purposes of marshalling
-            GenericEntity<List<Comment>> listGenericEntity = new GenericEntity<List<Comment>>(commentList) {};
+            GenericEntity<List<Comment>> listGenericEntity = new GenericEntity<List<Comment>>(commentList) {
+            };
 
             return Response.status(200).entity(listGenericEntity).build();
         } else {
@@ -178,7 +197,8 @@ public class BloggerResourceImpl implements BloggerResource {
 
         List<BlogEntry> blogEntries = new ArrayList<BlogEntry>(blogEntryMap.values());
 
-        GenericEntity<List<BlogEntry>> entity = new GenericEntity<List<BlogEntry>>(blogEntries) {};
+        GenericEntity<List<BlogEntry>> entity = new GenericEntity<List<BlogEntry>>(blogEntries) {
+        };
 
         return Response.status(200).entity(entity).build();
     }

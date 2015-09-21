@@ -1,6 +1,7 @@
 package communityblogger.services;
 
 import communityblogger.domain.BlogEntry;
+import communityblogger.domain.Comment;
 import communityblogger.domain.User;
 
 import javax.ws.rs.*;
@@ -10,21 +11,7 @@ import javax.ws.rs.core.StreamingOutput;
 @Path("resources")
 public interface BloggerResource {
 
-    // TO DO:
-    // Define one method for each of the operations in the Community Blogger
-    // Web service contract. In each case, use appropriate JAX-RS annotations
-    // to specify the URI pattern, media  type and HTTP method.
-    //
-    // The service contract comprises the 8 operations:
-    // - Create user
-    // - Retrieve user
-    // - Create blog entry
-    // - Retrieve blog entry
-    // - Create comment
-    // - Retrieve comments
-    // - Retrieve blog entries
     // - Follow blog entry
-
 
     /**
      * Useful operation to initialise the state of the Web service. This operation
@@ -54,10 +41,10 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveBlogEntry(@PathParam("blogId") String blogId);
 
-    @Path("/comments/")
+    @Path("/comments/{blogId}")
     @POST
-    @Produces("application/xml")
-    Response createComment();
+    @Consumes("application/xml")
+    Response createComment(Comment comment, @PathParam("blogId") String blogId, @CookieParam("username") String username);
 
     @Path("/comments/{blogId}")
     @GET
