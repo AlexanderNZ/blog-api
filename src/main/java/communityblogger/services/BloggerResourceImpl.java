@@ -204,7 +204,9 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public void followBlogEntry() {
+    public Response followBlogEntry(String s) {
 
+        //TODO implement plz
+        return Response.status(418).build();
     }
 }

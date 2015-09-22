@@ -34,20 +34,20 @@ import java.util.Set;
 /**
  * Class to represent a blog entry. A BlogEntry object holds the following
  * data:
- * <p>
+ * <p/>
  * - ID, a unique ID for the BlogEntry. It is the class user's responsibility
  * to ensure that any ID value that is passed to method setId() is unique.
- * <p>
+ * <p/>
  * - timestamp, this stores the time when the BlogEntry is created.
- * <p>
+ * <p/>
  * - content, the Blogentry's text content.
- * <p>
+ * <p/>
  * - keywords, an optional set of keywords for the BlogEntry.
- * <p>
+ * <p/>
  * - author, the BlogEntry's author, which is an instance of the User class.
- * <p>
+ * <p/>
  * - comments, a set of comments that have been made on the BlogEntry.
- * <p>
+ * <p/>
  * Class BlogEntry is not thread-safe. It is the class user's responsibility to
  * ensure that any concurrent access to BlogEntry objects is managed
  * appropriately.
@@ -106,7 +106,7 @@ public class BlogEntry {
 
     /**
      * Sets the unique ID for this BlogEntry.
-     * <p>
+     * <p/>
      * Note that it's the caller's responsibility to make sure that the ID
      * value is unique (i.e. that it's not already used by an existing
      * BlogEntry instance.
@@ -175,7 +175,7 @@ public class BlogEntry {
 
     /**
      * Sets the User who has authored this BlogEntry.
-     * <p>
+     * <p/>
      * Note that this method has package visibility, so can only be called by
      * classes within the same package. This is a form of encapsulation that
      * prevents unintended use of this method. Class User calls this method to
@@ -212,7 +212,7 @@ public class BlogEntry {
      * Return true if this BlogEntry object is equal in value to the method argument.
      * A BlogEntry's ID is assumed to be unique and so this equality test is
      * implemented to check the values of the ID attribute.
-     * <p>
+     * <p/>
      * Note that a BlogEntry object is assumed to have its ID set.
      */
     @Override

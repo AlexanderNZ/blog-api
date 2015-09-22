@@ -6,12 +6,11 @@ import communityblogger.domain.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 
 @Path("resources")
 public interface BloggerResource {
 
-    // - Follow blog entry
+    // TODO Follow blog entry
 
     /**
      * Useful operation to initialise the state of the Web service. This operation
@@ -56,8 +55,8 @@ public interface BloggerResource {
     @Produces("application/xml")
     Response retrieveBlogEntries();
 
-    @Path("/followBlogEntry")
-    @PUT
+    @Path("/followBlogEntry/{s}")
+    @POST
     @Produces("application/xml")
-    void followBlogEntry();
+    Response followBlogEntry(@PathParam("s") String s);
 }

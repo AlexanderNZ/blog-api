@@ -32,13 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Class to represent a comment made by a User on a BlogEntry. A Comment object
  * holds the following data:
- * <p>
+ * <p/>
  * - timestamp, which stores the time when the Comment was made.
- * <p>
+ * <p/>
  * - content, the comment's text.
- * <p>
+ * <p/>
  * - author, the User who made the comment.
- * <p>
+ * <p/>
  * Class Comment is not thread-safe. It is the class user's responsibility to
  * ensure that any concurrent access to Comment objects is managed
  * appropriately.
@@ -107,7 +107,7 @@ public class Comment implements Comparable<Comment> {
 
     /**
      * Sets the User who has authored this Comment.
-     * <p>
+     * <p/>
      * Note that this method has package visibility, so can only be called by
      * classes within the same package. This is a form of encapsulation that
      * prevents unintended use of this method. Class User calls this method to

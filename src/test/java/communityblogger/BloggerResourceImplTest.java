@@ -13,8 +13,6 @@ import org.joda.time.DateTime;
 
 import javax.ws.rs.core.Response;
 
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -326,7 +324,6 @@ public class BloggerResourceImplTest {
      * Creates a blog entry comment, attaches that comment to a specified blog entry
      * Request should include a cookie header with username - this is comment author.
      * Request must identify a blog entry that exists in a hash map
-     *
      */
     @org.junit.Test
     public void createBlogEntryCommentSuccess() throws Exception {
@@ -378,7 +375,48 @@ public class BloggerResourceImplTest {
     }
 
     /**
+     * Follows a particular blog entry
+     */
+    @org.junit.Test
+    public void followBlogEntry() throws Exception {
+
+        BloggerResource bloggerResource = new BloggerResourceImpl();
+
+        //add comments
+        Comment comment1 = new Comment("poll comment 1", DateTime.now());
+        Comment comment2 = new Comment("poll comment 2", DateTime.now());
+        Comment comment3 = new Comment("poll comment 3", DateTime.now());
+
+        BlogEntry blogEntry = new BlogEntry("poll post");
+
+        bloggerResource.createBlogEntry(blogEntry, "Bertmern");
+        bloggerResource.createComment(comment1, "3", "Spodermern");
+        bloggerResource.createComment(comment2, "3", "Spodermern");
+        bloggerResource.createComment(comment3, "3", "Spodermern");
+
+        //poll it
+        Response response = bloggerResource.followBlogEntry("3");
+        // assert that the first three blog comments are returned
+
+        //add new comments
+
+        Comment comment4 = new Comment("poll comment 4", DateTime.now());
+        Comment comment5 = new Comment("poll comment 5", DateTime.now());
+        Comment comment6 = new Comment("poll comment 6", DateTime.now());
+
+        bloggerResource.createComment(comment4, "3", "Spodermern");
+        bloggerResource.createComment(comment5, "3", "Spodermern");
+        bloggerResource.createComment(comment6, "3", "Spodermern");
+
+        //does the function only return the new comments?
+
+        //shit idek how to to this
+    }
+
+    /**
      * All singing all dancing integration test pls dont break
+     * This test passing is the best indicator I have that my work satisfies the service contract.
+     * Every endpoint is tested for success and failure. Hopefully didn't dungoof.
      */
     @org.junit.Test
     public void theTestToEndAllTests() throws Exception {
