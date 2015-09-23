@@ -53,7 +53,7 @@ public interface BloggerResource {
     @Path("/blogSet/")
     @GET
     @Produces("application/xml")
-    Response retrieveBlogEntries();
+    Response retrieveBlogEntries(@QueryParam("author") String author);
 
     @Path("/followBlogEntry/{s}")
     @POST

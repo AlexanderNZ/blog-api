@@ -74,6 +74,18 @@ public class BloggerResourceImpl implements BloggerResource {
         Comment testComment2 = new Comment("Plz comment moar", DateTime.now());
         testBlogEntry2.addComment(testComment2);
         blogEntryMap.put(1l, testBlogEntry2);
+
+        //Set up loads of posts for Bertmern to check BlogSet
+
+        BlogEntry blogEntry1 = new BlogEntry("1 post");
+        BlogEntry blogEntry2 = new BlogEntry("2 post");
+        BlogEntry blogEntry3 = new BlogEntry("3 post");
+        BlogEntry blogEntry4 = new BlogEntry("blue post");
+
+        createBlogEntry(blogEntry1, "Bertmern");
+        createBlogEntry(blogEntry2, "Bertmern");
+        createBlogEntry(blogEntry3, "Bertmern");
+        createBlogEntry(blogEntry4, "Bertmern");
     }
 
     @Override
@@ -193,12 +205,18 @@ public class BloggerResourceImpl implements BloggerResource {
     }
 
     @Override
-    public Response retrieveBlogEntries() {
+    public Response retrieveBlogEntries(String author) {
 
         List<BlogEntry> blogEntries = new ArrayList<BlogEntry>(blogEntryMap.values());
+        ArrayList<BlogEntry> list = new ArrayList<BlogEntry>();
 
-        GenericEntity<List<BlogEntry>> entity = new GenericEntity<List<BlogEntry>>(blogEntries) {
-        };
+        for (BlogEntry blogEntry : blogEntries) {
+            if (blogEntry.getAuthor().getUsername().equals(author)){
+                list.add(blogEntry);
+            }
+        }
+
+        GenericEntity<List<BlogEntry>> entity = new GenericEntity<List<BlogEntry>>(list) {};
 
         return Response.status(200).entity(entity).build();
     }
@@ -206,7 +224,8 @@ public class BloggerResourceImpl implements BloggerResource {
     @Override
     public Response followBlogEntry(String s) {
 
-        //TODO implement plz
-        return Response.status(418).build();
+        String result = "I'm a little tea pot short and stout. Here is my cradle and here is my spout. \n " + s;
+
+        return Response.status(418).entity(result).build();
     }
 }

@@ -369,7 +369,17 @@ public class BloggerResourceImplTest {
 
         BloggerResource bloggerResource = new BloggerResourceImpl();
 
-        Response retrievedBlogEntriesResponse = bloggerResource.retrieveBlogEntries();
+        BlogEntry blogEntry1 = new BlogEntry("1 post");
+        BlogEntry blogEntry2 = new BlogEntry("2 post");
+        BlogEntry blogEntry3 = new BlogEntry("3 post");
+        BlogEntry blogEntry4 = new BlogEntry("blue post");
+
+        bloggerResource.createBlogEntry(blogEntry1, "Bertmern");
+        bloggerResource.createBlogEntry(blogEntry2, "Bertmern");
+        bloggerResource.createBlogEntry(blogEntry3, "Bertmern");
+        bloggerResource.createBlogEntry(blogEntry4, "Bertmern");
+
+        Response retrievedBlogEntriesResponse = bloggerResource.retrieveBlogEntries("Bertmern");
 
         assertEquals(200, retrievedBlogEntriesResponse.getStatus());
     }
